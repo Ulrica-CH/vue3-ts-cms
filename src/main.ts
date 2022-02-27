@@ -6,6 +6,9 @@ import { registerApp } from './global'
 import { xyRequest } from './service'
 import router from './router'
 import store from './store'
+
+import 'normalize.css'
+import './assets/css/index.css'
 const app = createApp(App)
 registerApp(app)
 app.use(router).use(store).mount('#app')
