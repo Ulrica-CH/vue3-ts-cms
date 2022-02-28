@@ -3,6 +3,7 @@ import type { AxiosInstance } from 'axios'
 import type { XYRequestConfig, XYRequestInterceptors } from './type'
 import { ElLoading } from 'element-plus'
 import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
+
 const DEFAULT_LOADING = true
 class axiosRequest {
   // 如果不同环境下不同配置，比如使用不同的BASE_URL该怎么办
@@ -32,8 +33,8 @@ class axiosRequest {
     //全局拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('全局请求成功拦截器')
-        console.log(this.showLoading)
+        // console.log('全局请求成功拦截器')
+        // console.log(this.showLoading)
         // 判断是否加载Loading
         if (this.showLoading) {
           this.loading = ElLoading.service({
@@ -42,6 +43,7 @@ class axiosRequest {
             text: '加载中...'
           })
         }
+
         return config
       },
       (err) => {
@@ -51,19 +53,19 @@ class axiosRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('全局响应成功拦截器')
+        // console.log('全局响应成功拦截器')
         // 移除Loading
         this.loading?.close()
         const data = res.data
         // 伪代码 具体要看实际项目接口
-        if (data.returnCode === '-1001') {
-          console.log('请求失败')
-        } else {
-          return res.data
-        }
+        // if (data.returnCode === '-1001') {
+        //   console.log('请求失败')
+        // } else {
+        return data
+        // }
       },
       (err) => {
-        console.log('全局响应失败拦截')
+        // console.log('全局响应失败拦截')
         // 移除Loading
         this.loading?.close()
         if (err.response.status === 404) {

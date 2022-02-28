@@ -1,8 +1,8 @@
 <template>
   <div class="login-panel">
     <h2 class="title">垃圾分类后台系统</h2>
-    <el-tabs type="border-card" class="demo-tabs" stretch>
-      <el-tab-pane>
+    <el-tabs type="border-card" class="demo-tabs" stretch v-model="currentTab">
+      <el-tab-pane name="avatar">
         <template #label>
           <span>
             <el-icon><avatar /></el-icon>
@@ -11,13 +11,13 @@
         </template>
         <login-avatar ref="avatarRef" />
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span>
             <el-icon><iphone /></el-icon>手机登录
           </span>
         </template>
-        <login-iphone />
+        <login-iphone ref="phoneRef" />
       </el-tab-pane>
     </el-tabs>
 
@@ -47,16 +47,26 @@ export default defineComponent({
     Iphone
   },
   setup() {
+    //定义属性
     const isKeepPwd = ref(true)
-    //这里的类型不懂 以后再说
     const avatarRef = ref<InstanceType<typeof LoginAvatar>>()
+    const phoneRef = ref<InstanceType<typeof LoginIphone>>()
+    const currentTab = ref('avatar')
+    //定义方法
     const handleLoginClick = () => {
-      avatarRef.value?.loginAction()
+      if (currentTab.value === 'avatar') {
+        avatarRef.value?.avatarLogin(isKeepPwd.value)
+        console.log(1)
+      } else {
+        phoneRef.value?.phoneLogin()
+        console.log(2)
+      }
     }
     return {
       isKeepPwd,
       handleLoginClick,
-      avatarRef
+      avatarRef,
+      currentTab
     }
   }
 })

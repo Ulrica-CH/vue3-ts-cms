@@ -15,19 +15,34 @@
 <script lang="ts">
 import type { ElForm } from 'element-plus/lib/components'
 import { defineComponent, reactive, ref } from 'vue'
+import { useStore } from 'vuex'
 import { rules } from '../config/avatar-config'
+import local from '../../../utils/cache'
 export default defineComponent({
   setup() {
+    const store = useStore()
+    //定义属性
     const avatar = reactive({
-      name: '',
-      password: ''
+      name: local.getCache('name') ?? '',
+      password: local.getCache('password') ?? ''
     })
     const formRef = ref<InstanceType<typeof ElForm>>()
-    const loginAction = () => {
+    //定义方法
+    const avatarLogin = (isKeepPassword: boolean) => {
       formRef.value?.validate((valid) => {
         //校验没问题 valid为true
         if (valid) {
           console.log('登录逻辑开始')
+          //记住密码逻辑
+          if (isKeepPassword) {
+            local.setCache('name', avatar.name)
+            local.setCache('password', avatar.password)
+          } else {
+            local.removeCache('name')
+            local.removeCache('password')
+          }
+          //登录逻辑
+          store.dispatch('login/avatarLoginAction', { ...avatar })
         }
       })
     }
@@ -35,7 +50,7 @@ export default defineComponent({
     return {
       avatar,
       rules,
-      loginAction,
+      avatarLogin,
       formRef
     }
   }

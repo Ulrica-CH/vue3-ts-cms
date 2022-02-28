@@ -1,10 +1,16 @@
 import { createStore } from 'vuex'
-
-const store = createStore({
+import { IRootState } from './types'
+import login from './login/login'
+const store = createStore<IRootState>({
   state() {
-    return {
-      name: 'xxx'
-    }
+    return {}
+  },
+  modules: {
+    login
   }
 })
+//在login中进行vuex持久化
+export function setupStore() {
+  store.dispatch('login/LoadingStore')
+}
 export default store
