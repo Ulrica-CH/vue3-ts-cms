@@ -1,7 +1,6 @@
 import { Module } from 'vuex'
 import { IRootState } from '../types'
 import { ILoginState } from './types'
-
 import {
   avatarLoginRequest,
   requestUserInfoById,
@@ -9,7 +8,10 @@ import {
 } from '@/service/login/login'
 import { IAvatar } from '@/service/login/types'
 import router from '@/router'
+//导入封装的本地存储方法
 import local from '../../utils/cache'
+//导入菜单映射路由的方法
+import { mapMenusToRoutes } from '@/utils/map-route'
 //注意模块中写法 Module有两个必传类型参数
 const LoginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -29,6 +31,13 @@ const LoginModule: Module<ILoginState, IRootState> = {
     },
     keepUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+      //菜单映射路由
+      const routes = mapMenusToRoutes(userMenus)
+      //将路由对象添加到main的children中
+      routes.forEach((route) => {
+        //记得main路由对象里一定有个name不然不会添加到children中
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {

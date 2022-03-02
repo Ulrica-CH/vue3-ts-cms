@@ -12,10 +12,11 @@ import './assets/css/index.css'
 import { setupStore } from './store'
 const app = createApp(App)
 registerApp(app)
-app.use(router)
 app.use(store)
 //设置vuex值
 setupStore()
+//页面刷新问题
+app.use(router)
 app.mount('#app')
 
 // xyRequest.request({

@@ -7,9 +7,29 @@ import {
   ElIcon,
   ElForm,
   ElFormItem,
-  ElInput
+  ElInput,
+  ElAvatar
 } from 'element-plus/lib/components'
-import { ElCheckbox, ElLink } from 'element-plus'
+import {
+  ElAside,
+  ElCheckbox,
+  ElCol,
+  ElContainer,
+  ElDatePicker,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElHeader,
+  ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElOption,
+  ElRow,
+  ElSelect,
+  ElSubMenu
+} from 'element-plus'
 const components = [
   ElButton,
   ElTabs,
@@ -19,7 +39,24 @@ const components = [
   ElFormItem,
   ElInput,
   ElCheckbox,
-  ElLink
+  ElLink,
+  ElContainer,
+  ElMain,
+  ElHeader,
+  ElAside,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElAvatar,
+  ElSelect,
+  ElDatePicker,
+  ElOption,
+  ElRow,
+  ElCol
 ]
 export default function (app: App): void {
   for (const cpn of components) {
