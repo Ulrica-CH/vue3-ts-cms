@@ -38,7 +38,7 @@
 import { computed, defineComponent, ref } from 'vue'
 // import { useStore } from 'vuex'
 import { useStore } from '@/store'
-import { Location, Document, Setting } from '@element-plus/icons-vue'
+import { Setting } from '@element-plus/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { pathMapMenus } from '@/utils/map-route'
 export default defineComponent({
@@ -57,12 +57,9 @@ export default defineComponent({
     const currentActive = route.path
     //解决刷新 default-active问题
     const menu = pathMapMenus(userMenus.value, currentActive)
-    console.log(menu)
 
     const defaultActive = ref(menu.id + '')
     const handleMenuItemClick = (item: any) => {
-      // console.log(item)
-
       router.push({
         path: item.url ?? '/notfound'
       })

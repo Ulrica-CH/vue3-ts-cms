@@ -1,12 +1,14 @@
 import { createStore, useStore as useVuexStore, Store } from 'vuex'
 import type { IRootState, IStoreState } from './types'
 import login from './login/login'
+import system from './system/system'
 const store = createStore<IRootState>({
   state() {
     return {}
   },
   modules: {
-    login
+    login,
+    system
   }
 })
 //在login中进行vuex持久化

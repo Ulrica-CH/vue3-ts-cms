@@ -8,7 +8,11 @@ import {
   ElForm,
   ElFormItem,
   ElInput,
-  ElAvatar
+  ElAvatar,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn
 } from 'element-plus/lib/components'
 import {
   ElAside,
@@ -26,6 +30,7 @@ import {
   ElMenuItem,
   ElMenuItemGroup,
   ElOption,
+  ElPagination,
   ElRow,
   ElSelect,
   ElSubMenu
@@ -56,7 +61,12 @@ const components = [
   ElDatePicker,
   ElOption,
   ElRow,
-  ElCol
+  ElCol,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn,
+  ElPagination
 ]
 export default function (app: App): void {
   for (const cpn of components) {

@@ -5,7 +5,9 @@
       <el-icon v-else class="fold"><arrow-right-bold /></el-icon>
     </i>
     <div class="content">
-      <span>面包屑</span>
+      <span>
+        <bread-crumb :breadCrumb="breadcrumb"></bread-crumb>
+      </span>
       <div class="user-info">
         <el-avatar
           size="small"
@@ -34,23 +36,36 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { ArrowLeftBold, ArrowRightBold } from '@element-plus/icons-vue'
+import BreadCrumb from '@/base-ui/breadcrumb'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import { pathMapBread } from '@/utils/map-route'
 export default defineComponent({
   components: {
     ArrowLeftBold,
-    ArrowRightBold
+    ArrowRightBold,
+    BreadCrumb
   },
   emits: ['foldChange'],
   setup(props, { emit }) {
+    //定义状态
+    const name = computed(() => store.state.login.userInfo.name)
     const isFold = ref(false)
     const store = useStore()
-    const name = computed(() => store.state.login.userInfo.name)
+    //面包屑导航
+    const breadcrumb = computed(() => {
+      const store = useStore()
+      const userMenus = store.state.login.userMenus
+      const route = useRoute()
+      const path = route.path
+      return pathMapBread(userMenus, path)
+    })
+    //定义事件
     const handleIconClick = () => {
       isFold.value = !isFold.value
       emit('foldChange', isFold.value)
     }
-
-    return { isFold, name, handleIconClick }
+    return { isFold, name, breadcrumb, handleIconClick }
   }
 })
 </script>

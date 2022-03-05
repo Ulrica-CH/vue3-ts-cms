@@ -1,4 +1,5 @@
 export interface IFormItem {
+  field: any
   type: any
   label: string
   placeholder?: any
@@ -7,7 +8,7 @@ export interface IFormItem {
 }
 
 export interface IForm {
-  formItem: IFormItem[]
+  formItems: IFormItem[]
   labelWidth?: string
   itemStyle?: any
   colLayout?: any

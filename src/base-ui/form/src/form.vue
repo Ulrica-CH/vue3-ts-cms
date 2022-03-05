@@ -1,8 +1,11 @@
 <template>
   <div>
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form>
       <el-row>
-        <template v-for="item in formItem" :key="item.label">
+        <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout"
             ><el-form-item
               :label="item.label"
@@ -14,10 +17,14 @@
               >
                 <el-input
                   :placeholder="item.placeholder"
-                  show-password="item.type === 'password'"
+                  :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                 ></el-input> </template
               ><template v-else-if="item.type === 'select'">
-                <el-select style="width: 100%">
+                <el-select
+                  style="width: 100%"
+                  v-model="formData[`${item.field}`]"
+                >
                   <el-option v-for="opt in item.options" :key="opt.value">{{
                     opt.option
                   }}</el-option>
@@ -26,6 +33,7 @@
               <template v-else>
                 <!-- v-bind=""会自动解构  -->
                 <el-date-picker
+                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   style="width: 100%"
                 ></el-date-picker>
@@ -34,16 +42,23 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from '../types'
 export default defineComponent({
   props: {
+    formdata: {
+      type: Object,
+      required: true
+    },
     //传递的配置类型
-    formItem: {
+    formItems: {
       type: Array as PropType<IFormItem[]>,
       default: () => []
     },
@@ -71,8 +86,21 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {}
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    //这就相当两个对象 不影响user里的
+    const formData = ref({ ...props.formdata })
+    watch(
+      formData,
+      (newValue) => {
+        console.log(newValue)
+
+        emit('update:modelValue', newValue)
+      },
+      { deep: true }
+    )
+
+    return { formData }
   }
 })
 </script>

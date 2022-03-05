@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
+import { IBreadCrumbs } from '@/base-ui/breadcrumb/types'
 let firstPath: any = ''
 export function mapMenusToRoutes(userMenus: any): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = []
@@ -26,14 +27,21 @@ export function mapMenusToRoutes(userMenus: any): RouteRecordRaw[] {
         _recurseGetRoutes(menu.children)
       }
     }
-    // console.log(routes)
   }
   _recurseGetRoutes(userMenus)
-  //   console.log(allRoutes)
-
   return routes
 }
-export function pathMapMenus(userMenus: any[], currentActive: string): any {
+export function pathMapBread(userMenus: any[], path: string): any {
+  const breadCrumb: IBreadCrumbs[] = []
+  //相同逻辑代码封装到一个函数里，通过传递参数来进行判断
+  pathMapMenus(userMenus, path, breadCrumb)
+  return breadCrumb
+}
+export function pathMapMenus(
+  userMenus: any[],
+  currentActive: string,
+  breadCrumb?: IBreadCrumbs[]
+): any {
   // console.log(userMenus)
   // console.log(currentActive)
 
@@ -41,7 +49,10 @@ export function pathMapMenus(userMenus: any[], currentActive: string): any {
     if (menu.type === 1) {
       const findMenu = pathMapMenus(menu.children ?? [], currentActive)
       if (findMenu) {
-        // console.log(findMenu)
+        if (breadCrumb) {
+          breadCrumb.push({ name: menu.name })
+          breadCrumb.push({ name: findMenu.name })
+        }
         return findMenu
       }
     } else if (menu.type === 2 && menu.url === currentActive) {
@@ -50,6 +61,4 @@ export function pathMapMenus(userMenus: any[], currentActive: string): any {
     }
   }
 }
-console.log(firstPath)
-
 export { firstPath }

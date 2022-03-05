@@ -5,6 +5,8 @@ import 'element-plus/dist/index.css'
 import { registerApp } from './global'
 import router from './router'
 import store from './store'
+import ElementPlus from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import 'normalize.css'
 import './assets/css/index.css'
@@ -17,6 +19,9 @@ app.use(store)
 setupStore()
 //页面刷新问题
 app.use(router)
+app.use(ElementPlus, {
+  locale: zhCn
+})
 app.mount('#app')
 
 // xyRequest.request({
