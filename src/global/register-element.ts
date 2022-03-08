@@ -12,7 +12,8 @@ import {
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElDialog
 } from 'element-plus/lib/components'
 import {
   ElAside,
@@ -24,6 +25,7 @@ import {
   ElDropdownItem,
   ElDropdownMenu,
   ElHeader,
+  ElImage,
   ElLink,
   ElMain,
   ElMenu,
@@ -66,7 +68,9 @@ const components = [
   ElBreadcrumbItem,
   ElTable,
   ElTableColumn,
-  ElPagination
+  ElPagination,
+  ElImage,
+  ElDialog
 ]
 export default function (app: App): void {
   for (const cpn of components) {

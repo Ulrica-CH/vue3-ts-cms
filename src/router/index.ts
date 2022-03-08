@@ -23,11 +23,7 @@ const router = createRouter({
   routes,
   history: createWebHashHistory()
 })
-const ususu = {
-  path: '/ususu',
-  component: () => import('../views/login/ususu.vue')
-}
-router.addRoute('login', ususu)
+
 router.beforeEach((to) => {
   if (to.path !== '/login') {
     const token = local.getCache('token')

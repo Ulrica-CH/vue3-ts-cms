@@ -25,4 +25,8 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-breadcrumb__inner {
+  color: #fff !important;
+}
+</style>

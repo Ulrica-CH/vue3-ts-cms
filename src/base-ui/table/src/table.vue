@@ -4,12 +4,7 @@
       <div class="header">
         <slot name="header">{{ title }}</slot>
         <div class="headerHandle">
-          <slot name="headerHandle">
-            <el-button type="primary" round size="medium">新建用户</el-button>
-            <el-button round
-              ><el-icon><refresh /></el-icon
-            ></el-button>
-          </slot>
+          <slot name="headerHandle"> </slot>
         </div>
       </div>
       <el-table
@@ -17,6 +12,7 @@
         style="width: 100%"
         border
         @selection-change="handleSelectChange"
+        v-bind="childProps"
       >
         <el-table-column
           v-if="showSelect"
@@ -33,7 +29,11 @@
           align="center"
         ></el-table-column>
         <template v-for="propList in propLists" :key="propList.prop">
-          <el-table-column v-bind="propList" align="center">
+          <el-table-column
+            v-bind="propList"
+            align="center"
+            show-overflow-tooltip
+          >
             <!-- #default="scope123" 这里的scope123是自定义的一般写成scope-->
             <!-- :row11="scope123.row" row11是传递给父组件的数据的属性名要通过scope（可自定义）.row来调用 -->
             <template #default="scope123">
@@ -48,14 +48,14 @@
         <!-- 底部分页 -->
         <slot name="footer">
           <el-pagination
-            v-model:currentPage="currentPage4"
-            v-model:page-size="pageSize4"
-            :page-sizes="[100, 200, 300, 400]"
+            :currentPage="tablePageInfo.currentPage"
+            :page-size="tablePageInfo.pageSize"
+            :page-sizes="[10, 20, 30, 40]"
             :small="small"
             :disabled="disabled"
             :background="background"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
+            :total="dataCount"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           >
@@ -68,9 +68,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Refresh } from '@element-plus/icons-vue'
 export default defineComponent({
-  components: { Refresh },
+  components: {},
   props: {
     title: {
       type: String,
@@ -91,14 +90,32 @@ export default defineComponent({
     showSelect: {
       type: Boolean,
       default: false
+    },
+    dataCount: {
+      type: Number,
+      required: true
+    },
+    tablePageInfo: {
+      type: Object,
+      default: () => ({ currentPage: '0', pageSize: '10' })
+    },
+    childProps: {
+      type: Object,
+      default: () => ({})
     }
   },
-  emits: ['selectChange'],
+  emits: ['selectChange', 'update:tablePageInfo'],
   setup(props, { emit }) {
     const handleSelectChange = (value: any) => {
       emit('selectChange', value)
     }
-    return { handleSelectChange }
+    const handleCurrentChange = (currentPage: number) => {
+      emit('update:tablePageInfo', { ...props.tablePageInfo, currentPage })
+    }
+    const handleSizeChange = (pageSize: number) => {
+      emit('update:tablePageInfo', { ...props.tablePageInfo, pageSize })
+    }
+    return { handleSelectChange, handleCurrentChange, handleSizeChange }
   }
 })
 </script>

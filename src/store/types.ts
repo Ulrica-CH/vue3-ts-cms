@@ -1,7 +1,8 @@
 import { ILoginState } from './login/types'
 
 export interface IRootState {
-  name: string
+  entireDepartmentList: any[]
+  entireRoleList: any[]
 }
 //store模块中的类型
 export interface IRootAndModule {

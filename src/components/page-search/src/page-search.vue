@@ -6,8 +6,8 @@
       </template>
       <template #footer>
         <div class="footer">
-          <el-button>重置</el-button>
-          <el-button type="primary">搜索</el-button>
+          <el-button @click="handleResetClcik">重置</el-button>
+          <el-button type="primary" @click="handleQueryClick">搜索</el-button>
         </div>
       </template>
     </xy-form>
@@ -25,7 +25,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['resetClick', 'queryClick'],
+  setup(props, { emit }) {
     //表单组件的输入内容
     //每个页面根据不同配置信息要展示的输入框也就不一样
     //那么formData也要根据配置里的field来进行决定，不应该写死
@@ -34,9 +35,24 @@ export default defineComponent({
     for (const item of formItems) {
       formOriginData[item.field] = ''
     }
-    console.log(formOriginData)
+    // console.log(formOriginData)
 
     const formData = ref(formOriginData)
+    //重置
+    const handleResetClcik = () => {
+      for (const key in formOriginData) {
+        formData.value[`${key}`] = formOriginData[key]
+      }
+      emit('resetClick')
+    }
+    //提交按钮并搜索
+    const handleQueryClick = () => {
+      // console.log(formData.value)
+      emit('queryClick', formData.value)
+    }
+    // const handleResetClcik = () => {
+    //   formData.value = formOriginData
+    // }
     // const formData = ref({
     //   id: '',
     //   name: '',
@@ -44,7 +60,7 @@ export default defineComponent({
     //   sport: '',
     //   time: ''
     // })
-    return { formData }
+    return { formData, handleResetClcik, handleQueryClick }
   }
 })
 </script>

@@ -11,7 +11,7 @@ import router from '@/router'
 //导入封装的本地存储方法
 import local from '../../utils/cache'
 //导入菜单映射路由的方法
-import { mapMenusToRoutes } from '@/utils/map-route'
+import { mapMenusToRoutes, mapMenusToPermission } from '@/utils/map-route'
 //注意模块中写法 Module有两个必传类型参数
 const LoginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -19,7 +19,8 @@ const LoginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permission: []
     }
   },
   mutations: {
@@ -38,6 +39,11 @@ const LoginModule: Module<ILoginState, IRootState> = {
         //记得main路由对象里一定有个name不然不会添加到children中
         router.addRoute('main', route)
       })
+
+      //获取用户权限
+      const permissionResult = mapMenusToPermission(userMenus)
+      console.log(permissionResult)
+      state.permission = permissionResult
     }
   },
   actions: {
